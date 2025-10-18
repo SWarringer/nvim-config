@@ -139,35 +139,6 @@ return {
 				rename = { enabled = true },
 			})
 
-			-- === THEME-DEPENDENT DASHBOARD HIGHLIGHTS ===
-			local theme_colors = {}
-			local ok_catppuccin, catppuccin = pcall(require, "catppuccin.palettes")
-			local ok_pywal, pywal16 = pcall(require, "pywal16.colors")
-			if ok_catppuccin then
-				theme_colors.bg = vim.g.colors_name == "catppuccin"
-						and vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("Normal")), "bg")
-					or "#1e1e2e"
-				theme_colors.header = catppuccin.get_palette().lavender
-				theme_colors.dir = catppuccin.get_palette().blue
-				theme_colors.file = catppuccin.get_palette().text
-			elseif ok_pywal then
-				theme_colors.bg = pywal16.background
-				theme_colors.header = pywal16.color4
-				theme_colors.dir = pywal16.color1
-				theme_colors.file = pywal16.foreground
-			else
-				-- default fallback
-				theme_colors.bg = "#1e1e2e"
-				theme_colors.header = "#f5c2e7"
-				theme_colors.dir = "#89b4fa"
-				theme_colors.file = "#cdd6f4"
-			end
-
-			vim.api.nvim_set_hl(0, "SnacksDashboardNormal", { bg = theme_colors.bg, fg = theme_colors.file })
-			vim.api.nvim_set_hl(0, "header", { bg = theme_colors.bg, fg = theme_colors.header })
-			vim.api.nvim_set_hl(0, "dir", { bg = theme_colors.bg, fg = theme_colors.dir })
-			vim.api.nvim_set_hl(0, "file", { bg = theme_colors.bg, fg = theme_colors.file })
-
 			-- Dashboard keybinding for explorer
 			vim.keymap.set("n", "<leader>e", function()
 				local ok, err = pcall(snacks.explorer)

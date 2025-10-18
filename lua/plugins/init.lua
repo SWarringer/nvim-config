@@ -15,18 +15,21 @@ return {
   { import = "plugins.telescope" },
   { import = "plugins.git" },
 
-  -- Theme plugins
-  {
-    "uZer/pywal16.nvim",
-      config = function()
-      vim.cmd.colorscheme("pywal16")
-    end,
-  },
   {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,
     priority = 1000,
+  },
+
+  {
+    "oncomouse/lushwal.nvim",
+    cmd = { "LushwalCompile" },
+    dependencies = {
+      { "rktjmp/lush.nvim" },
+      { "rktjmp/shipwright.nvim" },
+    },
+    lazy = false,
   },
 
   { import = "plugins.ui" },

@@ -2,24 +2,67 @@
 -- UI Polish: Statusline, Bufferline, Key hints, Noice
 -----------------------------------------------------------
 
+-- Helper: get lushwal theme colors
+local function get_lushwal_colors()
+  local ok, lushwal = pcall(require, "lushwal.colors")
+  if ok then
+    return lushwal()
+  else
+    -- fallback colors if lushwal isn't installed
+    return {
+      background = "#1e1e2e",
+      color1 = "#ff0000",
+      color2 = "#00ff00",
+      color3 = "#0000ff",
+      color4 = "#ffff00",
+      color5 = "#ff00ff",
+    }
+  end
+end
+
+local theme = get_lushwal_colors()
+local bg = tostring(theme.background)
+local hex = function(c) return c and tostring(c) or nil end
+
 return {
-  -- Statusline
+  -----------------------------------------------------------
+  -- Lualine: Statusline
+  -----------------------------------------------------------
   {
     "nvim-lualine/lualine.nvim",
     lazy = false,
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "oncomouse/lushwal.nvim",
+      "rktjmp/lush.nvim",
+      "rktjmp/shipwright.nvim",
+    },
     config = function()
       local theme_name
 
-      -- Try loading pywal16
-      local has_pywal, pywal16 = pcall(require, "pywal16")
-      if has_pywal then
-        pywal16.setup()
-        vim.cmd.colorscheme("pywal16")
-        theme_name = "pywal16-nvim"
+      local has_lushwal = pcall(require, "lushwal")
+      if has_lushwal then
+        vim.g.lushwal_configuration = {
+          transparent_background = false,
+          compile_to_vimscript = true,
+          terminal_colors = false,
+          addons = { treesitter = true, native_lsp = true },
+        }
+
+        vim.cmd("LushwalCompile")
+        vim.cmd.colorscheme("lushwal")
+        vim.opt.cursorline = true
+
+        -- CursorLine and keywords
+        vim.api.nvim_set_hl(0, "CursorLine", { bg = hex(theme.background) })
+        vim.api.nvim_set_hl(0, "Keyword", { fg = hex(theme.color2), bold = true })
+        vim.api.nvim_set_hl(0, "Conditional", { fg = hex(theme.color5) })
+        vim.api.nvim_set_hl(0, "@keyword", { fg = hex(theme.color2), bold = true })
+
+        theme_name = "lushwal"
       else
-        -- Fallback to catppuccin
         vim.cmd.colorscheme("catppuccin")
+        vim.opt.cursorline = true
         theme_name = "catppuccin"
       end
 
@@ -42,7 +85,9 @@ return {
     end,
   },
 
+  -----------------------------------------------------------
   -- Bufferline
+  -----------------------------------------------------------
   {
     "akinsho/bufferline.nvim",
     lazy = false,
@@ -67,19 +112,35 @@ return {
     end,
   },
 
+  -----------------------------------------------------------
   -- Which-key: Keybinding hints
+  -----------------------------------------------------------
   {
-    "folke/which-key.nvim",
-    lazy = false,
-    config = function()
-      require("which-key").setup({
-        plugins = { spelling = true },
-        win = { border = "single" },
-      })
-    end,
-  },
+  "folke/which-key.nvim",
+  lazy = false,
+  config = function()
+    local theme = get_lushwal_colors()
+    local bg = tostring(theme.background)
 
+    require("which-key").setup({
+      plugins = { spelling = true },
+      win = {
+        border = "single",
+      },
+    })
+
+    -- Apply lushwal colors manually after setup
+    vim.schedule(function()
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg })
+      vim.api.nvim_set_hl(0, "FloatBorder", { bg = bg, fg = bg })
+    end)
+  end,
+},
+
+
+  -----------------------------------------------------------
   -- Noice: Enhanced command line, notifications
+  -----------------------------------------------------------
   {
     "folke/noice.nvim",
     lazy = true,
@@ -102,15 +163,15 @@ return {
       },
     },
     config = function(_, opts)
-      -- Get current Normal highlight's background for theme-aware notify
-      local hl = vim.api.nvim_get_hl_by_name("Normal", true)
-      local bg_hex = hl.background and string.format("#%06x", hl.background) or "#000000"
+      -- Make notifications follow lushwal theme
+      require("notify").setup({ background_colour = bg })
 
-      require("notify").setup({
-        background_colour = bg_hex,
-      })
+      -- Apply lushwal to Noice popups
+      vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = bg })
+      vim.api.nvim_set_hl(0, "NoicePopupmenu", { bg = bg })
+      vim.api.nvim_set_hl(0, "NoicePopupmenuBorder", { bg = bg, fg = bg })
 
       require("noice").setup(opts)
     end,
-},
+  },
 }

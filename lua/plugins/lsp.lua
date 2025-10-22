@@ -18,27 +18,27 @@ return {
 			})
 
 			-- 🔍 Show diagnostic info automatically when hovering on an error
-			 vim.api.nvim_create_autocmd("CursorHold", {
-			 	callback = function()
-			 		vim.diagnostic.open_float({
-            			scope = "cursor",
-            			focusable = false,
-            			close_events = {
+			vim.api.nvim_create_autocmd("CursorHold", {
+				callback = function()
+					vim.diagnostic.open_float({
+						scope = "cursor",
+						focusable = false,
+						close_events = {
 							"CursorMoved",
 							"CursorMovedI",
 							"BufHidden",
 							"InsertCharPre",
 							"WinLeave",
-            			},
-        			})
-			 	end,
-			 })
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "qf", "help", "lspinfo" },
-        callback = function()
-          vim.keymap.set("n", "q", ":close<CR>", { buffer = true, silent = true })
-        end,
-      })
+						},
+					})
+				end,
+			})
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "qf", "help", "lspinfo" },
+				callback = function()
+					vim.keymap.set("n", "q", ":close<CR>", { buffer = true, silent = true })
+				end,
+			})
 			-- Store on_attach globally so Mason auto-enabled servers can use it
 			vim.g._global_lsp_on_attach = on_attach
 		end,
@@ -69,7 +69,6 @@ return {
 				"black",
 				"isort",
 				"clang-format",
-				"rustfmt",
 			},
 			run_on_start = true,
 		},
@@ -83,7 +82,6 @@ return {
 			formatters_by_ft = {
 				python = { "black", "isort" },
 				c = { "clang_format" },
-				rust = { "rustfmt" },
 			},
 			format_on_save = function()
 				return { timeout_ms = 3000, lsp_fallback = true }
@@ -109,14 +107,14 @@ return {
 		dependencies = { "neovim/nvim-lspconfig" },
 		opts = {
 			keymap = {
-        		["<CR>"] = { "select_and_accept", "fallback" },
+				["<CR>"] = { "select_and_accept", "fallback" },
 				["<Tab>"] = { "select_next", "fallback" },
 				["<S-Tab>"] = { "select_prev", "fallback" },
 				["<Down>"] = { "select_next", "fallback" },
 				["<Up>"] = { "select_prev", "fallback" },
 				["<PageDown>"] = { "scroll_documentation_down" },
-				["<PageUp>"] = { "scroll_documentation_up" }, 
-        }, -- tab + enter support
+				["<PageUp>"] = { "scroll_documentation_up" },
+			}, -- tab + enter support
 			completion = {
 				accept = { auto_brackets = { enabled = true } },
 				menu = {
@@ -124,7 +122,7 @@ return {
 					scrollbar = false,
 				},
 				list = { selection = { preselect = false, auto_insert = true } },
-				ghost_text = {enabled = true },
+				ghost_text = { enabled = true },
 			},
 			signature = { enabled = true },
 			sources = {

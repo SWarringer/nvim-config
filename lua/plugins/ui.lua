@@ -142,34 +142,34 @@ return {
 					highlight_opened_files = "name",
 					root_folder_modifier = ":t",
 					icons = {
-						show = { file = true, folder = true, folder_arrow = true, git = true },
+						webdev_colors = true,
+						git_placement = "after",
+						padding = " ",
+						symlink_arrow = " ➛ ",
+						show = {
+							file = true,
+							folder = true,
+							folder_arrow = false,
+							git = true
+						},
 						glyphs = {
-							default = "",
-							symlink = "",
+							default = "",
 							folder = {
-								arrow_closed = "",
-								arrow_open = "",
-								default = "",
-								open = "",
-								empty = "",
-								empty_open = "",
-								symlink = "",
-								symlink_open = "",
+								default = "",
+								open = ""
 							},
 							git = {
 								unstaged = "✗",
 								staged = "✓",
 								unmerged = "",
 								renamed = "➜",
-								untracked = "★",
-								deleted = "",
-								ignored = "◌",
-							},
-						},
+								untracked = "★"
+							}
+						}
 					},
 					indent_markers = {
 						enable = true,
-						inline_arrows = true,
+						inline_arrows = false,
 						icons = { corner = "└", edge = "│", item = "│", bottom = "─", none = " " },
 					},
 				},
@@ -183,6 +183,8 @@ return {
 					vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Go to parent directory"))
 					vim.keymap.set("n", "C", api.tree.change_root_to_parent, opts("CD up one directory"))
 					vim.keymap.set("n", "<CR>", api.node.open.edit, opts("Open file or directory"))
+					vim.keymap.set("n", "l", api.node.open.edit, opts("Open file or directory"))
+					vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close directory"))
 					vim.keymap.set("n", ".", api.tree.toggle_hidden_filter, opts("Toggle dotfiles"))
 					-- File operations
 					vim.keymap.set("n", "n", api.fs.create, opts("Create new file"))

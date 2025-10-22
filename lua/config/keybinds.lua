@@ -5,7 +5,7 @@ vim.keymap.set("n", "<Tab>", ":bnext<CR>", { silent = true })
 vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { silent = true })
 -- Close current buffer (safe close, keeps layout)
 vim.keymap.set("n", "<C-w>", ":bdelete<CR>", { silent = true })
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<Esc>', ':nohlsearch<CR><Esc>', { noremap = true, silent = true })
 
 -- Keep a history of closed buffers
 local last_closed = nil

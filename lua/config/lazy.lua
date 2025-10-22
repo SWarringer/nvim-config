@@ -17,6 +17,16 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
+    {
+      "oncomouse/lushwal.nvim",
+      cmd = { "LushwalCompile" },
+      dependencies = {
+        { "rktjmp/lush.nvim" },
+        { "rktjmp/shipwright.nvim" },
+      },
+      lazy = false,
+  },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     -- import your plugins
     { import = "plugins" },
   },

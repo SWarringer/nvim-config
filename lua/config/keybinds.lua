@@ -56,6 +56,11 @@ local function map_nav(mode, lhs, rhs)
 	end, { silent = true, desc = "Move to window " .. rhs })
 end
 
+-- Splitting windows
+vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Vertical Split" })
+vim.keymap.set("n", "<leader>sh", ":split<CR>", { desc = "Horizontal Split" })
+vim.keymap.set("n", "<leader>q", ":close<CR>", { desc = "Close current split" })
+
 map_nav({ "n", "t" }, "<C-h>", "h")
 map_nav({ "n", "t" }, "<C-j>", "j")
 map_nav({ "n", "t" }, "<C-k>", "k")

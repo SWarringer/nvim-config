@@ -8,3 +8,4 @@ vim.opt.clipboard = "unnamedplus"
 vim.o.signcolumn = "yes"
 vim.o.wrap = false
 vim.opt.swapfile = false
+vim.o.updatetime = 500 -- milliseconds (0.3 s)

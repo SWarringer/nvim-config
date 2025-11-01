@@ -9,7 +9,7 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-      terminal_colors = true,      
+      terminal_colors = true,       -- Apply colors to :terminal
       transparent_background = false,
       dim_inactive = true,
       default_plugins = false,      
@@ -120,6 +120,22 @@ return {
     config = function(_, opts)
       require("notify").setup({})
       require("noice").setup(opts)
+    end,
+  },
+
+
+  -----------------------------------------------------------
+  --  Persistence
+  -------------------------------------------------------------
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre", -- load before reading a buffer
+    module = "persistence",
+    config = function()
+      require("persistence").setup({
+        dir = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"), -- session directory
+        options = { "buffers", "curdir", "tabpages", "winsize" },
+      })
     end,
   },
 

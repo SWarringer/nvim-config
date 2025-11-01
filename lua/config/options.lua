@@ -17,6 +17,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.incsearch = true
 vim.keymap.set({ "n", "i", "v" }, "<Esc>", "<Esc>:nohlsearch<CR>", { noremap = true, silent = true })
+
 -- Visual
 vim.opt.termguicolors = true
 

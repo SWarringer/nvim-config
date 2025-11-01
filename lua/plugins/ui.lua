@@ -116,7 +116,13 @@ return {
     lazy = true,
     event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
-    opts = {},
+    opts = {
+      views = {
+        cmdline_popup = {
+          position = { row = 5, col = "50%" },
+        },
+      },
+    },
     config = function(_, opts)
       require("notify").setup({})
       require("noice").setup(opts)
@@ -140,7 +146,7 @@ return {
   },
 
 	-----------------------------------------------------------
-	-- Nvim-tree + Snacks integration
+	-- Nvim-tree
 	-----------------------------------------------------------
 	{
 		"nvim-tree/nvim-tree.lua",

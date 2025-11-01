@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: oeira-qvbqy
+created: 2025-10-18T13:24:30+02:00

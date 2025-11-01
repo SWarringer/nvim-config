@@ -10,20 +10,6 @@ highlight Normal guifg=#49364E guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
 highlight! link User Normal
 highlight Bold guifg=#49364E guibg=#CDBBCE guisp=NONE blend=NONE gui=bold
 highlight Boolean guifg=#3A6BBB guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineBackground guifg=#628A47 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineBufferSelected guifg=#51723C guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineBufferVisible guifg=#614E65 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineCloseButton guifg=#614E65 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineCloseButtonSelected guifg=#2A56C6 guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineCloseButtonVisible guifg=#614E65 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineFill guifg=NONE guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineIndicatorSelected guifg=#3261B8 guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineSeparator guifg=#CDBBCE guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineSeparatorSelected guifg=#CDBBCE guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineSeparatorVisible guifg=#CDBBCE guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineTab guifg=#605E5C guibg=#CDBBCE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineTabClose guifg=#2A56C6 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight BufferLineTabSelected guifg=#2A56C6 guibg=#B053DF guisp=NONE blend=NONE gui=NONE
 highlight Character guifg=#2A56C6 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight ColorColumn guifg=#605E5C guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Comment guifg=#628A47 guibg=NONE guisp=NONE blend=NONE gui=italic

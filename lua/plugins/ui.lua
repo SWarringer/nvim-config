@@ -1,121 +1,127 @@
 -----------------------------------------------------------
--- UI Polish: Statusline, Bufferline, Key hints, Noice
+-- UI Polish: Pywal theme with Catppuccin fallback
 -----------------------------------------------------------
-local ui = require("util.theme")
-
 return {
-	-----------------------------------------------------------
-	-- Lualine: Statusline
-	-----------------------------------------------------------
-	{
-		"nvim-lualine/lualine.nvim",
-		lazy = false,
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-			"oncomouse/lushwal.nvim",
-			"rktjmp/lush.nvim",
-			"rktjmp/shipwright.nvim",
-		},
-		config = function()
-			local colors, theme_name = ui.get_theme()
-			require("lualine").setup({
-				options = {
-					theme = theme_name,
-					section_separators = "",
-					component_separators = "",
-					globalstatus = true,
-				},
-				sections = {
-					lualine_a = { "mode" },
-					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = { "filename" },
-					lualine_x = { "encoding", "fileformat", "filetype" },
-					lualine_y = { "progress" },
-					lualine_z = { "location" },
-				},
-			})
-		end,
-	},
+  -- Neopywal: Dynamic theme from Pywal/Wallust
+  {
+    "RedsXDD/neopywal.nvim",
+    name = "neopywal",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      terminal_colors = true,      
+      transparent_background = false,
+      dim_inactive = true,
+      default_plugins = false,      
+      plugins = {
+        lualine = true,
+        bufferline = true,
+        treesitter = true,
+        nvimtree = true,
+        noice = true,
+        blink_cmp = true,
+      },
+    },
+    config = function()
+      local ok, neopywal = pcall(require, "neopywal")
+      if ok then
+        neopywal.setup()
+        vim.cmd.colorscheme("neopywal")
+      else
+        -- fallback to Catppuccin
+        vim.cmd.colorscheme("catppuccin-mocha")
+      end
+    end,
+  },
 
-	-----------------------------------------------------------
-	-- Bufferline
-	-----------------------------------------------------------
-	{
-		"akinsho/bufferline.nvim",
-		lazy = false,
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("bufferline").setup({
-				options = {
-					numbers = "none",
-					close_command = "bdelete! %d",
-					right_mouse_command = "bdelete! %d",
-					left_trunc_marker = "",
-					right_trunc_marker = "",
-					max_name_length = 18,
-					max_prefix_length = 15,
-					tab_size = 18,
-					show_buffer_close_icons = true,
-					show_close_icon = false,
-					enforce_regular_tabs = false,
-					always_show_bufferline = true,
-				},
-			})
-		end,
-	},
+  -- Catppuccin fallback
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+  },
 
-	-----------------------------------------------------------
-	-- Which-key: Keybinding hints
-	-----------------------------------------------------------
-	{
-		"folke/which-key.nvim",
-		lazy = false,
-		config = function()
-			require("which-key").setup({
-				plugins = { spelling = true },
-				win = { border = "single" },
-			})
+  -----------------------------------------------------------
+  -- Lualine: Statusline
+  -----------------------------------------------------------
+  {
+    "nvim-lualine/lualine.nvim",
+    lazy = false,
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      -- Use neopywal colors if available
+      local colors = vim.g.neopywal_colors or {}
+      require("lualine").setup({
+        options = {
+          theme = colors.lualine_theme or "auto", -- fallback to "auto"
+          section_separators = "",
+          component_separators = "",
+          globalstatus = true,
+        },
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff", "diagnostics" },
+          lualine_c = { "filename" },
+          lualine_x = { "encoding", "fileformat", "filetype" },
+          lualine_y = { "progress" },
+          lualine_z = { "location" },
+        },
+      })
+    end,
+  },
 
-			-- Apply theme colors
-			vim.schedule(function()
-				vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg })
-				vim.api.nvim_set_hl(0, "FloatBorder", { bg = bg, fg = bg })
-			end)
-		end,
-	},
+  -----------------------------------------------------------
+  -- Bufferline
+  -----------------------------------------------------------
+  {
+    "akinsho/bufferline.nvim",
+    lazy = false,
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("bufferline").setup({
+        options = {
+          numbers = "none",
+          close_command = "bdelete! %d",
+          right_mouse_command = "bdelete! %d",
+          left_trunc_marker = "",
+          right_trunc_marker = "",
+          max_name_length = 18,
+          max_prefix_length = 15,
+          tab_size = 18,
+          show_buffer_close_icons = true,
+          show_close_icon = false,
+          enforce_regular_tabs = false,
+          always_show_bufferline = true,
+        },
+      })
+    end,
+  },
 
-	-----------------------------------------------------------
-	-- Noice: Enhanced command line, notifications
-	-----------------------------------------------------------
-	{
-		"folke/noice.nvim",
-		lazy = true,
-		event = "VeryLazy",
-		dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
-		opts = {
-			lsp = {
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
-			},
-			presets = {
-				bottom_search = true,
-				command_palette = true,
-				long_message_to_split = true,
-				inc_rename = false,
-				lsp_doc_border = false,
-			},
-		},
-		config = function(_, opts)
-			require("notify").setup({ background_colour = bg })
-			vim.api.nvim_set_hl(0, "NoiceCmdlinePopup", { bg = bg })
-			vim.api.nvim_set_hl(0, "NoicePopupmenu", { bg = bg })
-			vim.api.nvim_set_hl(0, "NoicePopupmenuBorder", { bg = bg, fg = bg })
-			require("noice").setup(opts)
-		end,
-	},
+  -----------------------------------------------------------
+  -- Which-key
+  -----------------------------------------------------------
+  {
+    "folke/which-key.nvim",
+    lazy = false,
+    config = function()
+      require("which-key").setup({ plugins = { spelling = true }, win = { border = "single" } })
+    end,
+  },
+
+  -----------------------------------------------------------
+  -- Noice
+  -----------------------------------------------------------
+  {
+    "folke/noice.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
+    opts = {},
+    config = function(_, opts)
+      require("notify").setup({})
+      require("noice").setup(opts)
+    end,
+  },
 
 	-----------------------------------------------------------
 	-- Nvim-tree + Snacks integration

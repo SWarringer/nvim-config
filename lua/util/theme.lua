@@ -9,19 +9,19 @@ function M.get_theme()
 		vim.g.lushwal_configuration = {
 			transparent_background = false,
 			compile_to_vimscript = true,
-			terminal_colors = false,
+			terminal_colors = true,
 			addons = {
 				treesitter = true,
 				native_lsp = true,
 				lualine = true,
-				bufferline_nvim = true,
+				bufferline_nvim = false,
 				which_key_nvim = true,
 				telescope = true,
 			},
 		}
 		vim.cmd("LushwalCompile")
 		vim.cmd.colorscheme("lushwal")
-		vim.opt.cursorline = false
+		vim.opt.cursorline = true
 		local colors = require("lushwal.colors")()
 		vim.api.nvim_set_hl(0, "Keyword", { fg = hex(colors.color6) })
 		vim.api.nvim_set_hl(0, "@keyword", { fg = hex(colors.color6) })
@@ -31,8 +31,6 @@ function M.get_theme()
 		--vim.api.nvim_set_hl(0, "Constant", { fg = hex(colors.color5) })
 		vim.api.nvim_set_hl(0, "@structure", { fg = hex(colors.color5) })
 		vim.api.nvim_set_hl(0, "structure", { fg = hex(colors.color5) })
-
-
 		return colors, "lushwal"
 	else
 		vim.cmd.colorscheme("catppuccin")

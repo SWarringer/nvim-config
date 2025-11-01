@@ -1,6 +1,5 @@
 return {
-	--  {
-	--	'tpope/vim-fugative',
-	--}
-	{ 'windwp/nvim-autopairs' }
+  {"alex-popov-tech/store.nvim", dependencies = { "OXY2DEV/markview.nvim" }, opts = {},cmd = "Store"},
+  { "tpope/vim-fugitive", event = "VeryLazy" },
+  { 'windwp/nvim-autopairs' }
 }

@@ -7,8 +7,6 @@ vim.keymap.set("n", "<leader>w", ":write<CR>", { desc = "Save" })
 -- Window navigation
 vim.keymap.set('n', '<Tab>', '<C-w>w', { noremap = true, silent = true, desc = "Next window" })
 vim.keymap.set('n', '<S-Tab>', '<C-w>W', { noremap = true, silent = true, desc = "Prev window" })
-vim.keymap.set('t', '<Tab>', '<C-\\><C-n><C-w>w', { noremap = true, silent = true, desc = "Next win (term)" })
-vim.keymap.set('t', '<S-Tab>', '<C-\\><C-n><C-w>W', { noremap = true, silent = true, desc = "Prev win (term)" })
 
 -- Search centering
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next search" })

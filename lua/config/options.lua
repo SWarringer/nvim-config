@@ -5,6 +5,7 @@ vim.opt.cursorline = true
 vim.opt.wrap = false
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 8
+vim.opt.signcolumn = "yes"
 
 -- Indentation
 vim.opt.tabstop = 2
@@ -19,7 +20,7 @@ vim.opt.incsearch = true
 vim.keymap.set({ "n", "i", "v" }, "<Esc>", "<Esc>:nohlsearch<CR>", { noremap = true, silent = true })
 
 -- Visual
-vim.opt.termguicolors = true
+--vim.opt.termguicolors = true
 
 -- File handling
 vim.opt.swapfile = false
@@ -31,5 +32,3 @@ vim.opt.autoread = true
 vim.opt.hidden = true
 vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamedplus"
-
-

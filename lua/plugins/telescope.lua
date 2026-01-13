@@ -13,7 +13,15 @@ return {
 
     telescope.setup({
       defaults = {
-        vimgrep_arguments = { 'rg', '--smart-case' },
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+        },
         sorting_strategy = 'ascending',
         layout_config = { prompt_position = 'top' },
       },
@@ -30,23 +38,12 @@ return {
       },
     })
 
-    -- Load extensions
     pcall(telescope.load_extension, 'fzf')
     pcall(telescope.load_extension, 'ui-select')
 
-    -- Global keymaps
     vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find files' })
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Live grep' })
     vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Buffers' })
     vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Help tags' })
-
-    -- Optional: Mason context keymaps
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "mason",
-      callback = function()
-        vim.keymap.set('n', '<C-f>', builtin.live_grep, { buffer = true, desc = 'Grep Mason packages' })
-        vim.keymap.set('n', '<C-q>', builtin.quickfix, { buffer = true, desc = 'Open quickfix' })
-      end,
-    })
   end,
 }

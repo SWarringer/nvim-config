@@ -23,7 +23,7 @@ return {
           '--smart-case',
         },
         sorting_strategy = 'ascending',
-        layout_config = { prompt_position = 'top' },
+        layout_config = { prompt_position = 'bottom' },
       },
       extensions = {
         fzf = {

@@ -117,9 +117,9 @@ return {
     dependencies = { "neovim/nvim-lspconfig" },
     opts = {
       keymap = {
+        ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
+        ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
         ["<CR>"] = { "select_and_accept", "fallback" },
-        ["<Tab>"] = { "select_next", "fallback" },
-        ["<S-Tab>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
         ["<Up>"] = { "select_prev", "fallback" },
         ["<PageDown>"] = { "scroll_documentation_down" },

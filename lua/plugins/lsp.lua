@@ -118,10 +118,10 @@ return {
       completion = {
         accept = { auto_brackets = { enabled = true } },
         menu = { border = "rounded", scrollbar = false },
-        list = { selection = { preselect = false, auto_insert = true } },
+        list = { selection = { preselect = false, auto_insert = false } },
         ghost_text = { enabled = true },
       },
-      signature = { enabled = true },
+      signature = { enabled = false },
       sources = { default = { "lsp", "path", "buffer" } },
     },
   },

@@ -100,16 +100,6 @@ return {
     dependencies = { "mason-org/mason.nvim" },
   },
 
-  -- ✨ Auto pairs (brackets, parentheses, quotes)
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    opts = {
-      check_ts = true,
-      enable_check_bracket_line = true,
-    },
-  },
-
   -- ✨ Completion UI (Blink)
   {
     "Saghen/blink.cmp",
@@ -118,8 +108,8 @@ return {
     opts = {
       keymap = {
         ["<CR>"] = { "select_and_accept", "fallback" },
-        ["<Tab>"] = { "select_next", "fallback" },
-        ["<S-Tab>"] = { "select_prev", "fallback" },
+        ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },
+        ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
         ["<Down>"] = { "select_next", "fallback" },
         ["<Up>"] = { "select_prev", "fallback" },
         ["<PageDown>"] = { "scroll_documentation_down" },

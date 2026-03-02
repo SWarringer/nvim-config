@@ -8,27 +8,26 @@ return {
     name = "neopywal",
     lazy = false,
     priority = 1000,
-    opts = {
-      terminal_colors = true, -- Apply colors to :terminal
-      transparent_background = false,
-      dim_inactive = true,
-      default_plugins = false,
-      plugins = {
-        lualine = true,
-        bufferline = true,
-        treesitter = true,
-        nvimtree = true,
-        noice = true,
-        blink_cmp = true,
-      },
-    },
     config = function()
-      local ok, neopywal = pcall(require, "neopywal")
-      if ok then
-        neopywal.setup()
+      local wal_file = vim.fn.expand("~/.cache/wal/colors-wal.vim")
+  
+      if vim.loop.fs_stat(wal_file) then
+        require("neopywal").setup({
+          terminal_colors = true,
+          transparent_background = false,
+          dim_inactive = true,
+          default_plugins = false,
+          plugins = {
+            lualine = true,
+            bufferline = true,
+            treesitter = true,
+            nvimtree = true,
+            noice = true,
+            blink_cmp = true,
+          },
+        })
         vim.cmd.colorscheme("neopywal")
       else
-        -- fallback to Catppuccin
         vim.cmd.colorscheme("catppuccin-mocha")
       end
     end,

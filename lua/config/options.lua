@@ -32,3 +32,4 @@ vim.opt.autoread = true
 vim.opt.hidden = true
 vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamedplus"
+

@@ -2,38 +2,56 @@
 -- UI Polish: Pywal theme with Catppuccin fallback
 -----------------------------------------------------------
 return {
+  {
+  "rose-pine/neovim",
+  name = "rose-pine",
+  config = function()
+    require("rose-pine").setup({
+      variant = "auto",  -- Auto-växlar mellan dawn (light) och dark_variant
+      dark_variant = "main",  -- main eller moon för dark mode
+    })
+    vim.cmd("colorscheme rose-pine")
+  end,
+},
+--[[
   -- Neopywal: Dynamic theme from Pywal/Wallust
   {
-    'uZer/pywal16.nvim',
+    "RedsXDD/neopywal.nvim",
+    name = "neopywal",
     lazy = false,
     priority = 1000,
     config = function()
       local wal_file = vim.fn.expand("~/.cache/wal/colors-wal.vim")
-      
+  
       if vim.loop.fs_stat(wal_file) then
-        -- Pywal-färger finns, använd dem
-        require('pywal16').setup()
-        vim.cmd.colorscheme("pywal16")
+        require("neopywal").setup({
+          terminal_colors = true,
+          transparent_background = false,
+          dim_inactive = true,
+          default_plugins = false,
+          plugins = {
+            lualine = true,
+            bufferline = true,
+            treesitter = true,
+            nvimtree = true,
+            noice = true,
+            blink_cmp = true,
+          },
+        })
+        vim.cmd.colorscheme("neopywal")
       else
-        -- Fallback till Catppuccin om inga pywal-färger finns
         vim.cmd.colorscheme("catppuccin-mocha")
       end
     end,
   },
 
-  -- Catppuccin som fallback (samma som tidigare)
+  -- Catppuccin fallback
   {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
-    config = function()
-      require("catppuccin").setup({
-        flavour = "mocha",
-        transparent_background = false,
-      })
-    end,
   },
-
+  ]]
   -----------------------------------------------------------
   -- Lualine: Statusline
   -----------------------------------------------------------

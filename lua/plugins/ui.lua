@@ -2,84 +2,52 @@
 -- UI Polish: Pywal theme with Catppuccin fallback
 -----------------------------------------------------------
 return {
-  {
+{
+  'erdivartanovich/pywal.nvim',
+  name = 'pywal',
+  config = function()
+    local wal_file = vim.fn.expand("~/.cache/wal/colors.json")
+    
+    if vim.loop.fs_stat(wal_file) then
+      vim.cmd.colorscheme("pywal")
+    else
+      -- Fallback to rose-pine
+      vim.cmd.colorscheme("rose-pine")
+    end
+  end,
+},
+
+-- Rose-pine as fallback (only dark mode)
+{
   "rose-pine/neovim",
   name = "rose-pine",
   config = function()
     require("rose-pine").setup({
-      variant = "auto",  -- Auto-växlar mellan dawn (light) och dark_variant
-      dark_variant = "main",  -- main eller moon för dark mode
+      variant = "dark",  -- Force dark mode only
+      dark_variant = "main",  -- main or moon for dark mode
+      disable_background = false,
+      disable_italics = false,
     })
-    vim.cmd("colorscheme rose-pine")
   end,
 },
---[[
-  -- Neopywal: Dynamic theme from Pywal/Wallust
-  {
-    "RedsXDD/neopywal.nvim",
-    name = "neopywal",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      local wal_file = vim.fn.expand("~/.cache/wal/colors-wal.vim")
-  
-      if vim.loop.fs_stat(wal_file) then
-        require("neopywal").setup({
-          terminal_colors = true,
-          transparent_background = false,
-          dim_inactive = true,
-          default_plugins = false,
-          plugins = {
-            lualine = true,
-            bufferline = true,
-            treesitter = true,
-            nvimtree = true,
-            noice = true,
-            blink_cmp = true,
-          },
-        })
-        vim.cmd.colorscheme("neopywal")
-      else
-        vim.cmd.colorscheme("catppuccin-mocha")
-      end
-    end,
-  },
 
-  -- Catppuccin fallback
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-  },
-  ]]
   -----------------------------------------------------------
   -- Lualine: Statusline
   -----------------------------------------------------------
-  {
-    "nvim-lualine/lualine.nvim",
-    lazy = false,
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      -- Use neopywal colors if available
-      local colors = vim.g.neopywal_colors or {}
-      require("lualine").setup({
-        options = {
-          theme = colors.lualine_theme or "auto", -- fallback to "auto"
-          section_separators = "",
-          component_separators = "",
-          globalstatus = true,
-        },
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { "filename" },
-          lualine_x = { "encoding", "fileformat", "filetype" },
-          lualine_y = { "progress" },
-          lualine_z = { "location" },
-        },
-      })
-    end,
-  },
+{
+  'nvim-lualine/lualine.nvim',
+  dependencies = { 'erdivartanovich/pywal.nvim', 'rose-pine/neovim' },
+  config = function()
+    local wal_file = vim.fn.expand("~/.cache/wal/colors.json")
+    local theme = vim.loop.fs_stat(wal_file) and 'pywal-nvim' or 'rose-pine'
+    
+    require('lualine').setup({
+      options = {
+        theme = theme,
+      },
+    })
+  end,
+},
 
   -----------------------------------------------------------
   -- Bufferline

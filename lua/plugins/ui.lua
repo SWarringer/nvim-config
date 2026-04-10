@@ -2,52 +2,63 @@
 -- UI Polish: Pywal theme with Catppuccin fallback
 -----------------------------------------------------------
 return {
-{
-  'erdivartanovich/pywal.nvim',
-  name = 'pywal',
-  config = function()
-    local wal_file = vim.fn.expand("~/.cache/wal/colors.json")
-    
-    if vim.loop.fs_stat(wal_file) then
-      vim.cmd.colorscheme("pywal")
-    else
-      -- Fallback to rose-pine
-      vim.cmd.colorscheme("rose-pine")
-    end
-  end,
-},
+  {
+    'erdivartanovich/pywal.nvim',
+    name = 'pywal',
+    config = function()
+      vim.defer_fn(function()
+        local wal_file = vim.fn.expand("~/.cache/wal/colors.json")
 
--- Rose-pine as fallback (only dark mode)
-{
-  "rose-pine/neovim",
-  name = "rose-pine",
-  config = function()
-    require("rose-pine").setup({
-      variant = "dark",  -- Force dark mode only
-      dark_variant = "main",  -- main or moon for dark mode
-      disable_background = false,
-      disable_italics = false,
-    })
-  end,
-},
+        if vim.loop.fs_stat(wal_file) then
+          vim.cmd.colorscheme("pywal")
+
+          -- Extra delay for highlight override
+          vim.defer_fn(function()
+            local colors = require('pywal.core').get_colors()
+            vim.cmd('hi CursorLine guibg=' .. colors.color2)
+            vim.cmd('hi Comment guifg=' .. colors.color3)
+
+            vim.cmd('hi NormalFloat guibg=' .. colors.background .. ' guifg=' .. colors.foreground)
+            vim.cmd('hi FloatBorder guibg=' .. colors.background .. ' guifg=' .. colors.color4)
+          end, 100)
+        else
+          vim.cmd.colorscheme("rose-pine")
+        end
+      end, 50)
+    end,
+  },
+
+  -- Rose-pine as fallback (only dark mode)
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    config = function()
+      require("rose-pine").setup({
+        variant = "dark",      -- Force dark mode only
+        dark_variant = "main", -- main or moon for dark mode
+        disable_background = false,
+        disable_italics = false,
+      })
+    end,
+  },
 
   -----------------------------------------------------------
   -- Lualine: Statusline
   -----------------------------------------------------------
-{
-  'nvim-lualine/lualine.nvim',
-  dependencies = { 'erdivartanovich/pywal.nvim', 'rose-pine/neovim' },
-  config = function()
-    local wal_file = vim.fn.expand("~/.cache/wal/colors.json")
-    local theme = vim.loop.fs_stat(wal_file) and 'pywal-nvim' or 'rose-pine'
-    
-    require('lualine').setup({
-      options = {
-        theme = theme,
-      },
-    })
-  end,
-},
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'erdivartanovich/pywal.nvim', 'rose-pine/neovim' },
+    config = function()
+      local wal_file = vim.fn.expand("~/.cache/wal/colors.json")
+      local theme = vim.loop.fs_stat(wal_file) and 'pywal-nvim' or 'rose-pine'
+
+      require('lualine').setup({
+        options = {
+          theme = theme,
+        },
+      })
+    end,
+  },
 
   -----------------------------------------------------------
   -- Bufferline

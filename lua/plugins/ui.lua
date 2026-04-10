@@ -15,8 +15,8 @@ return {
           -- Extra delay for highlight override
           vim.defer_fn(function()
             local colors = require('pywal.core').get_colors()
-            vim.cmd('hi CursorLine guibg=' .. colors.color2)
-            vim.cmd('hi Comment guifg=' .. colors.color3)
+            -- vim.cmd('hi CursorLine guibg=' .. colors.color2)
+            -- vim.cmd('hi Comment guifg=' .. colors.color3)
 
             vim.cmd('hi NormalFloat guibg=' .. colors.background .. ' guifg=' .. colors.foreground)
             vim.cmd('hi FloatBorder guibg=' .. colors.background .. ' guifg=' .. colors.color4)
@@ -28,14 +28,13 @@ return {
     end,
   },
 
-  -- Rose-pine as fallback (only dark mode)
   {
     "rose-pine/neovim",
     name = "rose-pine",
     config = function()
       require("rose-pine").setup({
-        variant = "dark",      -- Force dark mode only
-        dark_variant = "main", -- main or moon for dark mode
+        variant = "dark",
+        dark_variant = "main",
         disable_background = false,
         disable_italics = false,
       })

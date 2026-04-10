@@ -3,28 +3,23 @@
 -----------------------------------------------------------
 return {
   {
-    'erdivartanovich/pywal.nvim',
-    name = 'pywal',
+    "RedsXDD/neopywal.nvim",
+    name = "neopywal",
+    lazy = false,
+    priority = 1000,
     config = function()
-      vim.defer_fn(function()
-        local wal_file = vim.fn.expand("~/.cache/wal/colors.json")
+      local ok, _ = pcall(require, "neopywal")
 
-        if vim.loop.fs_stat(wal_file) then
-          vim.cmd.colorscheme("pywal")
-
-          -- Extra delay for highlight override
-          vim.defer_fn(function()
-            local colors = require('pywal.core').get_colors()
-            -- vim.cmd('hi CursorLine guibg=' .. colors.color2)
-            -- vim.cmd('hi Comment guifg=' .. colors.color3)
-
-            vim.cmd('hi NormalFloat guibg=' .. colors.background .. ' guifg=' .. colors.foreground)
-            vim.cmd('hi FloatBorder guibg=' .. colors.background .. ' guifg=' .. colors.color4)
-          end, 100)
+      if ok then
+        require("neopywal").setup()
+        if vim.env.THEME == "light" or vim.o.background == "light" then
+          vim.cmd.colorscheme("neopywal-light")
         else
-          vim.cmd.colorscheme("rose-pine")
+          vim.cmd.colorscheme("neopywal-dark")
         end
-      end, 50)
+      else
+        vim.cmd.colorscheme("rose-pine")
+      end
     end,
   },
 
@@ -35,8 +30,6 @@ return {
       require("rose-pine").setup({
         variant = "dark",
         dark_variant = "main",
-        disable_background = false,
-        disable_italics = false,
       })
     end,
   },

@@ -72,9 +72,6 @@ Important:
         chat.toggle()
       end, { desc = "Toggle CopilotChat" })
 
-      vim.keymap.set("n", "<leader>co", function()
-        chat.open()
-      end, { desc = "Open CopilotChat" })
 
       -- =========================
       -- Model Picker
@@ -160,7 +157,7 @@ Important:
           end
         end
 
-        chat.ask("Analyze these files together:\n\n" .. table.concat(combined, "\n"))
+        chat.ask("Analyze these files without text output, then ask the user for instructions\n\n" .. table.concat(combined, "\n"))
       end, { desc = "Analyze buffers" })
     end,
   },

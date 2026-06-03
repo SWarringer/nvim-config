@@ -7,6 +7,12 @@ return {
     build = "make tiktoken",
 
     opts = {
+      mappings = {
+        reset = {
+          normal = "<A-r>",
+          insert = "<A-r>",
+        },
+      },
       model = "claude-sonnet-4.6",
       temperature = 0.2,
 

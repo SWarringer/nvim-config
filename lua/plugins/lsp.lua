@@ -116,20 +116,20 @@ return {
       require("platformio").setup(vim.g.pioConfig)
     end,
   },
-  -- -- Autoformat on save
-  -- {
-  --   "stevearc/conform.nvim",
-  --   opts = {
-  --     formatters_by_ft = {
-  --       python = { "black" },
-  --       c = { "clang_format" },
-  --     },
-  --     format_on_save = function()
-  --       return { timeout_ms = 3000, lsp_fallback = true }
-  --     end,
-  --   },
-  --   dependencies = { "mason-org/mason.nvim" },
-  -- },
+  -- Autoformat on save
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = { "black" },
+        c = { "clang_format" },
+      },
+      format_on_save = function()
+        return { timeout_ms = 3000, lsp_fallback = true }
+      end,
+    },
+    dependencies = { "mason-org/mason.nvim" },
+  },
 
   -- ✨ Completion UI (Blink)
   {

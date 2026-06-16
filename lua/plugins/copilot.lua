@@ -11,7 +11,7 @@ return {
       temperature = 0.2,
 
       -- ✅ safe + powerful
-      trusted_tools = { "file", "glob", "grep" },
+      trusted_tools = { "file", "glob", "grep", "query", "edit", "bash", "gitdiff" },
 
       window = {
         layout = "float",
@@ -66,6 +66,10 @@ return {
       local function with_context(prompt)
         local ctx_files = get_context_files()
       
+        -- ✅ detect if caller already specifies buffers
+        local has_buffer = prompt:match("#buffer:")
+          or prompt:match("#gitdiff:")
+      
         -- ✅ Define what files are relevant
         local source_patterns = "src/**/*.c include/**/*.h CMakeLists.txt prj.conf README.md"
       
@@ -73,8 +77,14 @@ return {
         local ignore_dirs = "build/, .cache/, .git/, zephyr/, modules/"
       
         local result = prompt
-          .. "\n\n#buffer:active"
-          .. "\n@copilot"
+          .. "\n\n@copilot"
+      
+        -- ✅ only inject active buffer if nothing else is specified
+        if not has_buffer then
+          result = result .. "\n#buffer:active"
+        end
+      
+        result = result
           .. "\n\nWhen exploring the project:"
           .. "\n- Focus on: " .. source_patterns
           .. "\n- Ignore: " .. ignore_dirs
@@ -82,7 +92,7 @@ return {
         for _, file in ipairs(ctx_files) do
           result = result .. "\n#file:" .. file
         end
-
+      
         return result
       end
 
@@ -117,7 +127,7 @@ return {
       
       -- Explain (selection)
       vim.keymap.set("v", "<leader>ce", function()
-        chat.ask("/Explain #selection @copilot")
+        ask("/Explain #selection")
       end, {
         desc = "Explain selected code",
       })
@@ -146,30 +156,25 @@ return {
       
       -- Architecture (multi-buffer)
       vim.keymap.set("n", "<leader>cA", function()
-        chat.ask([[
-      Analyze architecture:
-      
+        ask([[
       #buffer:listed
-      @copilot
       
+      Analyze architecture:
       Focus on structure, coupling, scalability.
       ]])
       end, {
         desc = "Analyze architecture across open buffers",
       })
-      
       -- Project overview
       vim.keymap.set("n", "<leader>cB", function()
-        chat.ask([[
+        ask([[
       #buffer:listed
-      @copilot
       
       Summarize this codebase and ask what to explore next
       ]])
       end, {
         desc = "Project overview: summarize + propose exploration",
       })
-      
       vim.keymap.set("n", "<leader>cR", function()
         ask([[
       Analyze this project:
@@ -185,9 +190,8 @@ return {
       })
       -- Git debugging (changes only)
       vim.keymap.set("n", "<leader>cg", function()
-        chat.ask([[
+        ask([[
       #gitdiff:staged
-      @copilot
       
       Find root cause of issues introduced by these changes
       ]])

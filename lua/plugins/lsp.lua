@@ -21,8 +21,8 @@ return {
       vim.lsp.config("clangd", {
         cmd = {
           "clangd",
-          "--compile-commands-dir=.pio/build/nrf52_dk",
           "--background-index",
+          "--query-driver=/usr/bin/arm-none-eabi-*",
         },
         on_attach = on_attach,
       })
@@ -70,8 +70,6 @@ return {
     "mason-org/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {
-        "clangd",
-        "rust_analyzer",
         "pyright",
       },
       automatic_enable = false,
@@ -95,41 +93,20 @@ return {
     dependencies = { "mason-org/mason.nvim" },
   },
 
-  -- PlatformIO plugin
-  {
-    "anurag3301/nvim-platformio.lua",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
-      "nvim-lua/plenary.nvim",
-      "folke/which-key.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "akinsho/toggleterm.nvim",
-    },
-    config = function()
-      vim.g.pioConfig = {
-        lsp = "clangd",
-        clangd_source = "compiledb", 
-        picker_backend = "auto",
-      }
-  
-      require("platformio").setup(vim.g.pioConfig)
-    end,
-  },
   -- Autoformat on save
-  {
-    "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
-        python = { "black" },
-        c = { "clang_format" },
-      },
-      format_on_save = function()
-        return { timeout_ms = 3000, lsp_fallback = true }
-      end,
-    },
-    dependencies = { "mason-org/mason.nvim" },
-  },
+  -- {
+  --   "stevearc/conform.nvim",
+  --   opts = {
+  --     formatters_by_ft = {
+  --       python = { "black" },
+  --       c = { "clang_format" },
+  --     },
+  --     format_on_save = function()
+  --       return { timeout_ms = 3000, lsp_fallback = true }
+  --     end,
+  --   },
+  --   dependencies = { "mason-org/mason.nvim" },
+  -- },
 
   -- ✨ Completion UI (Blink)
   {

@@ -3,12 +3,14 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
       { "nvim-lua/plenary.nvim" },
+      { "MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "copilot-chat" } },
     },
     build = "make tiktoken",
 
     opts = {
       model = "claude-sonnet-4.6",
       temperature = 0.2,
+      auto_insert_mode = true,
 
       -- ✅ safe + powerful
       trusted_tools = { "file", "glob", "grep", "query", "edit", "bash", "gitdiff" },
@@ -192,11 +194,49 @@ return {
       vim.keymap.set("n", "<leader>cg", function()
         ask([[
       #gitdiff:staged
-      
+
       Find root cause of issues introduced by these changes
       ]])
       end, {
         desc = "Debug staged changes (git diff analysis)",
+      })
+
+      -- Fix
+      vim.keymap.set({ "n", "v" }, "<leader>cf", function()
+        ask("/Fix")
+      end, {
+        desc = "Fix bugs in current buffer/selection",
+      })
+
+      -- Tests
+      vim.keymap.set({ "n", "v" }, "<leader>ct", function()
+        ask("/Tests")
+      end, {
+        desc = "Generate test cases",
+      })
+
+      -- Docs
+      vim.keymap.set({ "n", "v" }, "<leader>cD", function()
+        ask("/Docs")
+      end, {
+        desc = "Generate documentation comments",
+      })
+
+      -- Optimize
+      vim.keymap.set({ "n", "v" }, "<leader>co", function()
+        ask("/Optimize")
+      end, {
+        desc = "Suggest performance improvements",
+      })
+
+      -- Commit message
+      vim.keymap.set("n", "<leader>cC", function()
+        ask([[
+      #gitdiff:staged
+      /Commit
+      ]])
+      end, {
+        desc = "Generate commit message from staged diff",
       })
       
       -- =========================
@@ -233,6 +273,14 @@ return {
       
       vim.keymap.set("n", "<leader>cc", chat.toggle, {
         desc = "Toggle Copilot chat window",
+      })
+
+      vim.keymap.set("n", "<leader>cM", "<cmd>CopilotChatModels<CR>", {
+        desc = "Pick AI model",
+      })
+
+      vim.keymap.set("n", "<leader>cx", "<cmd>CopilotChatReset<CR>", {
+        desc = "Reset chat history",
       })
 
       vim.api.nvim_create_autocmd("BufEnter", {

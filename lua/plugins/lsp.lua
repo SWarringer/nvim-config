@@ -72,7 +72,7 @@ return {
       ensure_installed = {
         "pyright",
       },
-      automatic_enable = false,
+      automatic_enable = true,
     },
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },

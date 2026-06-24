@@ -10,7 +10,7 @@ return {
     opts = {
       model = "claude-sonnet-4.6",
       temperature = 0.2,
-      auto_insert_mode = true,
+      auto_insert_mode = false,
 
       -- ✅ safe + powerful
       trusted_tools = { "file", "glob", "grep", "query", "edit", "bash", "gitdiff" },

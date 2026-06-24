@@ -28,7 +28,7 @@ return {
       current_line_blame = true,
       current_line_blame_opts = {
         delay = 500,
-        virt_text_pos = "eol",
+        virt_text_pos = "right_align",
       },
       signs = {
         add = { text = "│" },

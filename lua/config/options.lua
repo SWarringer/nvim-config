@@ -20,7 +20,14 @@ vim.opt.smartcase = true
 vim.opt.incsearch = true
 vim.keymap.set({ "n", "i", "v" }, "<Esc>", "<Esc>:nohlsearch<CR>", { noremap = true, silent = true })
 
--- Visual
+-- Spell checking
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "text", "gitcommit" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = { "en_us" }
+  end,
+})
 
 -- File handling
 vim.opt.swapfile = false

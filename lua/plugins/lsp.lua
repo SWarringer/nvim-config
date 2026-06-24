@@ -4,21 +4,44 @@ return {
     "neovim/nvim-lspconfig",
     lazy = false,
     config = function()
-      local lspconfig = require("lspconfig")
-
-      -- Set up basic LSP keymaps once a server attaches
+      -- Diagnostics UI
+      vim.diagnostic.config({
+        virtual_text = false,
+        float = { border = "rounded" },
+      })
+  
+      -- on_attach
       local on_attach = function(_, bufnr)
         local opts = { buffer = bufnr, silent = true }
       end
+  
+      vim.g._global_lsp_on_attach = on_attach
+  
+      -- ✅ NEW API (no require("lspconfig"))
+      vim.lsp.config("clangd", {
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--query-driver=/usr/bin/arm-none-eabi-*",
+        },
+        on_attach = on_attach,
+      })
+  
+      -- ✅ Enable it
+      vim.lsp.enable("clangd")
 
-      -- Disable default virtual text; tiny-inline-diagnostic will handle inline display
-      vim.diagnostic.config({
-        virtual_text = false,
-        float = { border = "rounded" }, -- optional, hover floats still work
+      vim.lsp.config("robotframework_ls", {
+        settings = {
+          robot = {
+            pythonpath = {
+              "/home/simonwarringer/Dev/xbus_fw/tests/hil/helpers",
+            },
+          },
+        },
+        on_attach = on_attach,
       })
 
-      -- Store on_attach globally so Mason auto-enabled servers can use it
-      vim.g._global_lsp_on_attach = on_attach
+      vim.lsp.enable("robotframework_ls")
     end,
   },
 
@@ -60,8 +83,6 @@ return {
     "mason-org/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {
-        "clangd",
-        "rust_analyzer",
         "pyright",
       },
       automatic_enable = true,
@@ -86,19 +107,19 @@ return {
   },
 
   -- Autoformat on save
-  {
-    "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
-        python = { "black" },
-        c = { "clang_format" },
-      },
-      format_on_save = function()
-        return { timeout_ms = 3000, lsp_fallback = true }
-      end,
-    },
-    dependencies = { "mason-org/mason.nvim" },
-  },
+  -- {
+  --   "stevearc/conform.nvim",
+  --   opts = {
+  --     formatters_by_ft = {
+  --       python = { "black" },
+  --       c = { "clang_format" },
+  --     },
+  --     format_on_save = function()
+  --       return { timeout_ms = 3000, lsp_fallback = true }
+  --     end,
+  --   },
+  --   dependencies = { "mason-org/mason.nvim" },
+  -- },
 
   -- ✨ Completion UI (Blink)
   {
@@ -110,6 +131,8 @@ return {
         ["<CR>"] = { "select_and_accept", "fallback" },
         ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },
         ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
+        ['<C-K>'] = { 'select_prev', 'fallback' },
+        ['<C-J>'] = { 'select_next', 'fallback' },
         ["<Down>"] = { "select_next", "fallback" },
         ["<Up>"] = { "select_prev", "fallback" },
         ["<PageDown>"] = { "scroll_documentation_down" },

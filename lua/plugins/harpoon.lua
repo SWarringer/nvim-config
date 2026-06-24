@@ -1,11 +1,8 @@
 -----------------------------------------------------------
 -- Harpoon
 -----------------------------------------------------------
-
-
 local conf = require('telescope.config').values
 local themes = require('telescope.themes')
-
 -- helper function to use telescope on harpoon list.
 -- change get_ivy to other themes if wanted
 local function toggle_telescope(harpoon_files)
@@ -14,9 +11,8 @@ local function toggle_telescope(harpoon_files)
         table.insert(file_paths, item.value)
     end
     local opts = themes.get_ivy({
-        promt_title = "Working List"
+        prompt_title = "Working List"
     })
-
     require("telescope.pickers").new(opts, {
         finder = require("telescope.finders").new_table({
             results = file_paths,
@@ -25,7 +21,6 @@ local function toggle_telescope(harpoon_files)
         sorter = conf.generic_sorter(opts),
     }):find()
 end
-
 return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
@@ -34,6 +29,7 @@ return {
     },
     config = function()
         local harpoon = require('harpoon')
+        harpoon:setup()
         vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "Harpoon file" })
         vim.keymap.set("n", "<leader>d", function() harpoon:list():remove() end, { desc = "Un-harpoon file" })
         vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)

@@ -29,19 +29,6 @@ return {
   
       -- ✅ Enable it
       vim.lsp.enable("clangd")
-
-      vim.lsp.config("robotframework_ls", {
-        settings = {
-          robot = {
-            pythonpath = {
-              "/home/simonwarringer/Dev/xbus_fw/tests/hil/helpers",
-            },
-          },
-        },
-        on_attach = on_attach,
-      })
-
-      vim.lsp.enable("robotframework_ls")
     end,
   },
 
@@ -112,7 +99,6 @@ return {
   --   opts = {
   --     formatters_by_ft = {
   --       python = { "black" },
-  --       c = { "clang_format" },
   --     },
   --     format_on_save = function()
   --       return { timeout_ms = 3000, lsp_fallback = true }

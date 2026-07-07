@@ -9,7 +9,12 @@ if _cc_token and _cc_token ~= "" then
 end
 
 return {
-  { "github/copilot.vim" },
+  {
+    "github/copilot.vim",
+    init = function()
+      vim.g.copilot_enabled = false
+    end,
+  },
   {
     "olimorris/codecompanion.nvim",
     version = "^19.0.0",
@@ -18,16 +23,24 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
-      interactions = {
+      strategies = {
         chat = {
-          adapter = {
-            name = "copilot",
-            model = "claude-sonnet-4.5",
-          },
-        },
-        inline = {
           adapter = "copilot",
         },
+        agent = {
+          adapter = "copilot",
+        },
+      },
+      adapters = {
+        copilot = function()
+          return require("codecompanion.adapters").extend("copilot", {
+            schema = {
+              model = {
+                default = "claude-sonnet-4.5",
+              },
+            },
+          })
+        end,
       },
       display = {
         chat = {
@@ -35,6 +48,11 @@ return {
             position = "right",
             width = 0.25,
           },
+        },
+        inline = {
+              model = {
+                default = "claude-sonnet-4.5",
+              },
         },
       },
       opts = {

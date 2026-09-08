@@ -86,7 +86,6 @@ return {
     opts = {
       ensure_installed = {
         "black",
-        "clang-format",
       },
       run_on_start = true,
     },

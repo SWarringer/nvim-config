@@ -37,6 +37,12 @@ For C/C++ code:
 - Consider embedded constraints such as RAM usage, Flash usage, CPU utilization, startup time, and deterministic behavior.
 - Prefer clear and predictable code over clever solutions.
 
+For Python code:
+- Declare types and return values.
+- Adhere to strict LSP and linter standards.
+- Ruff will check all code after writing.
+- Where posible, keep scripts short, focused and coherent. 
+
 When repository tools are available:
 - Base conclusions on code and documentation found in the project whenever possible.
 
@@ -121,6 +127,13 @@ return {
         },
       },
 
+      extensions = {
+        history = {
+          enabled = true,
+          opts = { auto_save = true },
+        },
+      },
+
       opts = {
         log_level = "DEBUG",
       },
@@ -131,6 +144,9 @@ return {
       { "<leader>ca", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "AI Actions" },
       { "<leader>ci", "<cmd>CodeCompanion<cr>", mode = { "n", "v" }, desc = "Inline Prompt" },
       { "<leader>cA", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add to Chat" },
+      { "<leader>cn", "<cmd>CodeCompanionChat<cr>", mode = { "n", "v" }, desc = "New Chat" },
+      { "<leader>cs", "<cmd>CodeCompanionHistory<cr>", mode = "n", desc = "Browse/Select Chats (history)" },
+      { "<leader>cl", "<cmd>CodeCompanionSummaries browse<cr>", mode = "n", desc = "Browse Summaries" },
     },
   },
 

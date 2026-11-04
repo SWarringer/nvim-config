@@ -84,27 +84,10 @@ return {
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     opts = {
-      ensure_installed = {
-        "black",
-      },
       run_on_start = true,
     },
     dependencies = { "mason-org/mason.nvim" },
   },
-
-  -- Autoformat on save
-  -- {
-  --   "stevearc/conform.nvim",
-  --   opts = {
-  --     formatters_by_ft = {
-  --       python = { "black" },
-  --     },
-  --     format_on_save = function()
-  --       return { timeout_ms = 3000, lsp_fallback = true }
-  --     end,
-  --   },
-  --   dependencies = { "mason-org/mason.nvim" },
-  -- },
 
   -- ✨ Completion UI (Blink)
   {

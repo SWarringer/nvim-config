@@ -21,6 +21,8 @@ return {
           '--line-number',
           '--column',
           '--smart-case',
+          '--hidden',
+          '--glob=!.git/',
         },
         sorting_strategy = 'ascending',
         layout_config = { prompt_position = 'bottom' },
@@ -41,7 +43,9 @@ return {
     pcall(telescope.load_extension, 'fzf')
     pcall(telescope.load_extension, 'ui-select')
 
-    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find files' })
+    vim.keymap.set('n', '<leader>ff', function()
+      builtin.find_files({ hidden = true, file_ignore_patterns = { '^%.git/' } })
+    end, { desc = 'Find files (incl. hidden)' })
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Live grep' })
     vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Buffers' })
     vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Help tags' })

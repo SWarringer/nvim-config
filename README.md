@@ -26,6 +26,12 @@ Plugins install automatically via `lazy.nvim`. These external tools must be inst
   ```sh
   echo '@~/.config/nvim/ai/embedded-prompt.md' >> ~/.claude/CLAUDE.md
   ```
+- **Skills** – firmware workflow skills (adapted from obra/superpowers, MIT) live in
+  `ai/skills/`. Symlink each into `~/.claude/skills/` so both the CLI and the ACP chat load them:
+  ```sh
+  mkdir -p ~/.claude/skills
+  for d in ~/.config/nvim/ai/skills/*/; do ln -sfn "${d%/}" ~/.claude/skills/; done
+  ```
 
 ## Optional
 - **pywal** (`wal`) – theme colors from `~/.cache/wal/colors.json` (falls back to rose-pine)

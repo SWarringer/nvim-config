@@ -21,5 +21,8 @@ require("lazy").setup({
     { import = "plugins" },
     { import = "plugins.lsp"}
   },
-    change_detection = {notify = false}
+    change_detection = {notify = false},
+    -- Plugins marked `dev = true` load from ~/Dev/<name> when it exists,
+    -- and fall back to the git source otherwise.
+    dev = { path = "~/Dev", fallback = true },
 })

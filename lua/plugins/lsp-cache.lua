@@ -1,8 +1,10 @@
 -- Keeps clangd/pyright working across `make clean` and container rebuilds.
 -- :LspCache sync | status | edit | clean | log   (:help lsp-cache)
 return {
-  dir = "~/Dev/lsp-cache.nvim",
-  name = "lsp-cache.nvim",
+  "SWarringer/lsp-cache.nvim",
+  -- Use the ~/Dev checkout when present, otherwise clone from GitHub
+  -- (see `dev` in config/lazy.lua).
+  dev = true,
   lazy = false,
   opts = {
     clangd = {

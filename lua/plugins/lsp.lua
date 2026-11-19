@@ -18,15 +18,12 @@ return {
       vim.g._global_lsp_on_attach = on_attach
   
       -- ✅ NEW API (no require("lspconfig"))
+      -- clangd's `cmd` and pyright's pythonPath come from lsp-cache.nvim
+      -- (lua/plugins/lsp-cache.lua).
       vim.lsp.config("clangd", {
-        cmd = {
-          "clangd",
-          "--background-index",
-          "--query-driver=/usr/bin/arm-none-eabi-*",
-        },
         on_attach = on_attach,
       })
-  
+
       -- ✅ Enable it
       vim.lsp.enable("clangd")
     end,
